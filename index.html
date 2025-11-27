@@ -7,46 +7,92 @@
   <style>
     :root {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color-scheme: light dark;
+      color-scheme: dark;
+      scroll-behavior: smooth;
+    }
+    * {
+      box-sizing: border-box;
     }
     body {
       margin: 0;
-      background: #050816;
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
       color: #f9fafb;
     }
+
+    /* Layout */
     header {
-      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(to bottom, rgba(15,23,42,0.9), rgba(15,23,42,0.6));
+      border-bottom: 1px solid rgba(148,163,184,0.35);
+      padding: 0.75rem 1.5rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
     }
     .logo {
       font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.95rem;
     }
     .tagline {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       opacity: 0.8;
     }
+    nav {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: #e5e7eb;
+      text-decoration: none;
+      opacity: 0.85;
+      padding: 0.35rem 0.6rem;
+      border-radius: 999px;
+    }
+    nav a:hover {
+      background: rgba(148,163,184,0.15);
+      opacity: 1;
+    }
+
     main {
-      padding: 3rem 2rem 4rem;
-      max-width: 1000px;
+      padding: 2.5rem 1.5rem 4rem;
+      max-width: 1100px;
       margin: 0 auto;
     }
+
+    section {
+      margin-bottom: 3.25rem;
+    }
+    section h2 {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+    section p {
+      color: #e5e7eb;
+      margin-top: 0;
+    }
+
+    /* Hero */
     .hero {
       display: grid;
-      gap: 1.5rem;
+      gap: 1.8rem;
+      margin-bottom: 3.5rem;
     }
-    .hero h1 {
-      font-size: clamp(2.3rem, 4vw, 3rem);
-      margin: 0;
-    }
-    .hero p {
-      margin: 0.5rem 0 1.5rem;
-      color: #e5e7eb;
-      max-width: 34rem;
+    @media (min-width: 768px) {
+      .hero {
+        grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr);
+        align-items: center;
+      }
     }
     .badge {
       display: inline-flex;
@@ -54,11 +100,18 @@
       gap: 0.4rem;
       padding: 0.25rem 0.7rem;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
+      border: 1px solid rgba(148,163,184,0.6);
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: #a5b4fc;
+    }
+    .hero h1 {
+      font-size: clamp(2.3rem, 4vw, 3rem);
+      margin: 0.6rem 0 0.6rem;
+    }
+    .hero p {
+      max-width: 36rem;
     }
     .cta-row {
       display: flex;
@@ -73,6 +126,10 @@
       font-weight: 600;
       cursor: pointer;
       font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
     .btn-primary {
       background: linear-gradient(135deg, #4f46e5, #0ea5e9);
@@ -80,37 +137,29 @@
     }
     .btn-secondary {
       background: transparent;
-      border: 1px solid rgba(148, 163, 184, 0.7);
+      border: 1px solid rgba(148,163,184,0.7);
       color: #e5e7eb;
     }
-    .grid {
-      margin-top: 3rem;
-      display: grid;
-      gap: 1.5rem;
+    .btn-primary:hover {
+      filter: brightness(1.1);
     }
-    @media (min-width: 768px) {
-      .hero {
-        grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr);
-        align-items: center;
-      }
-      .grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
+    .btn-secondary:hover {
+      background: rgba(148,163,184,0.18);
     }
+
     .card {
       padding: 1.3rem 1.1rem;
       border-radius: 1rem;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.25), transparent);
+      border: 1px solid rgba(55,65,81,0.9);
+      background: radial-gradient(circle at top left, rgba(79,70,229,0.25), transparent);
     }
     .card h3 {
       margin: 0 0 0.4rem;
-      font-size: 1rem;
+      font-size: 1.05rem;
     }
     .card p {
       margin: 0;
       font-size: 0.9rem;
-      color: #e5e7eb;
     }
     .kpi-tag {
       font-size: 0.75rem;
@@ -119,45 +168,164 @@
       opacity: 0.75;
       margin-bottom: 0.3rem;
     }
+
+    /* Grids */
+    .grid-3 {
+      display: grid;
+      gap: 1.3rem;
+    }
+    @media (min-width: 900px) {
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    .grid-2 {
+      display: grid;
+      gap: 1.5rem;
+    }
+    @media (min-width: 900px) {
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* Pills / labels */
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+    .pill {
+      font-size: 0.8rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(30,64,175,0.7);
+      border: 1px solid rgba(129,140,248,0.5);
+      white-space: nowrap;
+    }
+
+    /* Pricing */
+    .price-card {
+      padding: 1.5rem 1.3rem;
+      border-radius: 1.2rem;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: radial-gradient(circle at top, rgba(56,189,248,0.18), transparent);
+    }
+    .price-tag {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0.4rem 0;
+    }
+    .price-note {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+    ul {
+      margin: 0.4rem 0 0.6rem 1.2rem;
+      padding: 0;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    /* Careers */
+    .highlight {
+      font-size: 0.9rem;
+      padding: 0.6rem 0.8rem;
+      border-radius: 0.9rem;
+      background: rgba(30,64,175,0.35);
+      border: 1px solid rgba(96,165,250,0.5);
+    }
+
+    /* Contact */
+    .contact-wrapper {
+      display: grid;
+      gap: 1.4rem;
+    }
+    @media (min-width: 800px) {
+      .contact-wrapper {
+        grid-template-columns: 1.4fr 1.6fr;
+      }
+    }
+    .contact-form {
+      padding: 1.2rem 1.1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: rgba(15,23,42,0.9);
+    }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 0.25rem;
+      opacity: 0.9;
+    }
+    input, textarea {
+      width: 100%;
+      border-radius: 0.7rem;
+      border: 1px solid rgba(75,85,99,0.9);
+      background: rgba(15,23,42,0.95);
+      color: #f9fafb;
+      padding: 0.5rem 0.6rem;
+      font-size: 0.9rem;
+      margin-bottom: 0.6rem;
+      font-family: inherit;
+    }
+    input:focus, textarea:focus {
+      outline: 1px solid #38bdf8;
+      border-color: #38bdf8;
+    }
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
     footer {
-      border-top: 1px solid rgba(148, 163, 184, 0.35);
-      padding: 1.2rem 2rem;
+      border-top: 1px solid rgba(148,163,184,0.35);
+      padding: 1.2rem 1.5rem 1.8rem;
       font-size: 0.8rem;
       opacity: 0.8;
       text-align: center;
     }
     a {
       color: #a5b4fc;
-      text-decoration: none;
     }
   </style>
 </head>
 <body>
   <header>
-    <div>
-      <div class="logo">TotalClean</div>
+    <div class="brand">
+      <div class="logo">TOTALCLEAN</div>
       <div class="tagline">Polished. Prepared. Protected.</div>
     </div>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#operations">How it works</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#careers">Careers</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </header>
 
   <main>
-    <section class="hero">
+    <!-- HERO -->
+    <section class="hero" id="top">
       <div>
         <div class="badge">Automated Commercial Cleaning Platform</div>
         <h1>Consistent, measurable cleaning powered by AI-driven workflows.</h1>
         <p>
           TotalClean combines field-ready checklists, dashboards, and recruiting
-          playbooks so every building is cleaned the same way, every time —
-          with live quality control and route visibility.
+          playbooks so every building is cleaned the same way, every time — with
+          live quality control and route visibility.
         </p>
         <div class="cta-row">
-          <button class="btn btn-primary">Book a walkthrough</button>
-          <button class="btn btn-secondary">View sample dashboard</button>
+          <a class="btn btn-primary" href="#contact">Book a walkthrough</a>
+          <a class="btn btn-secondary" href="#dashboard">View sample dashboard</a>
         </div>
       </div>
       <div>
         <div class="card">
-          <div class="kpi-tag">Live Operations Snapshot</div>
+          <div class="kpi-tag">Live operations snapshot</div>
           <p>
             • QC scores by building<br />
             • Routes & completion status<br />
@@ -168,35 +336,234 @@
       </div>
     </section>
 
-    <section class="grid">
-      <article class="card">
-        <h3>Problem</h3>
-        <p>
-          Commercial cleaning is usually managed with paper checklists, texts,
-          and memory — which means inconsistent quality, missed tasks, and
-          zero visibility across routes.
-        </p>
-      </article>
-      <article class="card">
-        <h3>Solution</h3>
-        <p>
-          AI-driven workflows that standardize every clean, capture QC data on
-          site, and route tasks automatically so operators can manage by
-          exception instead of chasing details.
-        </p>
-      </article>
-      <article class="card">
-        <h3>Systemized Operations</h3>
-        <p>
-          Built-in training binder, recruiting kit, and dashboard specs give
-          you a complete, repeatable system — not just software.
-        </p>
-      </article>
+    <!-- SERVICES -->
+    <section id="services">
+      <h2>Services we automate</h2>
+      <p>
+        Built for commercial cleaning teams that want repeatable quality across
+        every route and building — without adding more managers.
+      </p>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Nightly & recurring cleans</h3>
+          <p>
+            Standardized workflows for offices, medical, and specialty spaces so
+            techs always know the next task and supervisors see completion in real time.
+          </p>
+          <div class="pill-row">
+            <span class="pill">Office</span>
+            <span class="pill">Medical</span>
+            <span class="pill">Multi-site</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Project & specialty work</h3>
+          <p>
+            Deep cleans, floor work, post-construction and more — routed, scheduled
+            and tracked alongside your recurring work.
+          </p>
+          <div class="pill-row">
+            <span class="pill">Deep cleans</span>
+            <span class="pill">Floors</span>
+            <span class="pill">Post-construction</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Startup & scaling support</h3>
+          <p>
+            Use our playbooks to launch new accounts, onboard teams, and expand to
+            new regions without reinventing your systems.
+          </p>
+          <div class="pill-row">
+            <span class="pill">Onboarding</span>
+            <span class="pill">Playbooks</span>
+            <span class="pill">Multi-location</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPERATIONS / HOW IT WORKS -->
+    <section id="operations">
+      <h2>How TotalClean runs your operation</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>1. Turn SOPs into workflows</h3>
+          <p>
+            We convert your current checklists and tribal knowledge into step-by-step
+            workflows that every tech can follow from their phone.
+          </p>
+        </div>
+        <div class="card">
+          <h3>2. Capture quality in the field</h3>
+          <p>
+            Supervisors complete QC passes in the app, attach photos, and flag issues.
+            The system builds a quality history for every building and route.
+          </p>
+        </div>
+        <div class="card">
+          <h3>3. Manage by exception</h3>
+          <p>
+            Instead of chasing every job, you only see exceptions, missed tasks, or
+            low scores — with clear next actions and ownership.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard">
+      <h2>Dashboard & reporting</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>What you see at a glance</h3>
+          <ul>
+            <li>QC scores by building, client, and route</li>
+            <li>Route completion and on-time performance</li>
+            <li>Revenue and labor estimates by day/week</li>
+            <li>Exception log with photos and notes</li>
+          </ul>
+          <p>
+            The dashboard is built to match how cleaning companies actually operate:
+            fast answers, simple filters, and exportable reports.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Sample metrics</h3>
+          <p>
+            • &nbsp;<strong>92% avg. QC score</strong> across portfolio<br />
+            • &nbsp;<strong>8% of jobs</strong> flagged for review<br />
+            • &nbsp;<strong>3–5 hrs/week</strong> saved for supervisors<br />
+            • &nbsp;<strong>Fewer credits</strong> due to documented quality
+          </p>
+          <p style="margin-top:0.8rem;font-size:0.85rem;opacity:0.85;">
+            Ask for a live walkthrough to see a sample dashboard and how it could
+            mirror your current routes and buildings.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing">
+      <h2>Simple pricing to match your growth</h2>
+      <div class="grid-2">
+        <div class="price-card">
+          <h3>Launch plan</h3>
+          <div class="price-tag">Custom quote</div>
+          <p class="price-note">Best for 1–3 managers and up to ~50 buildings.</p>
+          <ul>
+            <li>Account setup & workflow mapping</li>
+            <li>Starter dashboard & reporting</li>
+            <li>Recruiting & onboarding playbook access</li>
+            <li>Email support during rollout</li>
+          </ul>
+          <p class="price-note">
+            We’ll scope your routes, current tools, and goals, then build a plan
+            around your exact operation.
+          </p>
+        </div>
+        <div class="price-card">
+          <h3>Scale & multi-location</h3>
+          <div class="price-tag">Let’s design it</div>
+          <p class="price-note">For growing teams that need standardization across regions.</p>
+          <ul>
+            <li>Multiple branch / region dashboards</li>
+            <li>Advanced QC and exception workflows</li>
+            <li>Train-the-trainer materials & playbooks</li>
+            <li>Quarterly optimization sessions</li>
+          </ul>
+          <p class="price-note">
+            Tell us where you are today and your 12-month target — we’ll help you
+            build the system to get there.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAREERS -->
+    <section id="careers">
+      <h2>Careers at TotalClean</h2>
+      <p>
+        Great systems only work with great people. Our recruiting and onboarding
+        workflows are built to bring in reliable, detail-oriented cleaners and
+        supervisors — and set them up to win.
+      </p>
+      <div class="grid-2">
+        <div class="card">
+          <h3>For cleaning techs</h3>
+          <ul>
+            <li>Clear route instructions on every job</li>
+            <li>Consistent schedules where possible</li>
+            <li>Training that respects your time</li>
+            <li>Feedback focused on growth, not blame</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>For leads & supervisors</h3>
+          <ul>
+            <li>Tools to see route status in real time</li>
+            <li>QC workflows built into your day</li>
+            <li>Playbooks for training new people fast</li>
+            <li>Support from an ops-minded leadership team</li>
+          </ul>
+        </div>
+      </div>
+      <p class="highlight" style="margin-top:1rem;">
+        Interested in working with TotalClean? Use the contact form below and
+        mention whether you’re applying as a cleaner, lead, or supervisor. We’ll
+        follow up with current opportunities.
+      </p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Book a walkthrough</h2>
+      <div class="contact-wrapper">
+        <div>
+          <p>
+            Ready to see how TotalClean could standardize your operation? Share a
+            bit about your routes, buildings, and current tools. We’ll follow up
+            with a short call and a tailored walkthrough.
+          </p>
+          <ul>
+            <li>Typical number of nightly jobs</li>
+            <li>Number of supervisors / managers</li>
+            <li>Where you feel quality or visibility is slipping</li>
+            <li>What “done right” would look like for you</li>
+          </ul>
+        </div>
+        <form
+          class="contact-form"
+          action="mailto:info@totalcleanpdx.com"
+          method="post"
+          enctype="text/plain"
+        >
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your name" required />
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required />
+
+          <label for="company">Company</label>
+          <input id="company" name="company" type="text" placeholder="Company name" />
+
+          <label for="message">What would you like to improve first?</label>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Example: Nightly office routes in downtown, too many call-backs and credits…"
+          ></textarea>
+
+          <button class="btn btn-primary" type="submit">Send details</button>
+        </form>
+      </div>
     </section>
   </main>
 
   <footer>
-    TotalClean &mdash; Automated Commercial Cleaning &middot; Polished. Prepared. Protected.
+    TotalClean &mdash; Automated Commercial Cleaning &middot;
+    <a href="#top">Back to top</a>
   </footer>
 </body>
 </html>
